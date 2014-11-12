@@ -1,0 +1,9 @@
+%strong.left
+  = calendar_date.date.day
+
+- calendar_date.events.each do |event|
+  .row
+    .col-md-6
+      = "#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}"
+    .col-md-6
+      = event.title
