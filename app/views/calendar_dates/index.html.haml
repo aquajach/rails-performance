@@ -1,27 +1,27 @@
 - if flash[:notice].present?
   .alert.alert-success
     = flash[:notice]
-
-%table.table.table-bordered
-  %thead
-    %tr
-      %th
-      %th Mon
-      %th Tue
-      %th Wed
-      %th Thu
-      %th Fri
-      %th Sat
-      %th Sun
-  %tbody
-    - @calendar_dates.each_slice(7).each do |week|
+- cache @calendar_dates do
+  %table.table.table-bordered
+    %thead
       %tr
-        %td
-          - if week.last.date.day <= 7
-            = week.last.date.strftime('%B')
-
-        - week.each do |date|
+        %th
+        %th Mon
+        %th Tue
+        %th Wed
+        %th Thu
+        %th Fri
+        %th Sat
+        %th Sun
+    %tbody
+      - @calendar_dates.each_slice(7).each do |week|
+        %tr
           %td
-            = render 'events/show', calendar_date: date
+            - if week.last.date.day <= 7
+              = week.last.date.strftime('%B')
+
+          - week.each do |date|
+            %td
+              = render 'events/show', calendar_date: date
 
 
