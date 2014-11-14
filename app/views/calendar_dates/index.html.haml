@@ -1,7 +1,7 @@
 - if flash[:notice].present?
   .alert.alert-success
     = flash[:notice]
-- cache @calendar_dates do
+- cache cache_key do
   %table.table.table-bordered
     %thead
       %tr
@@ -20,8 +20,17 @@
             - if week.last.date.day <= 7
               = week.last.date.strftime('%B')
 
-          - week.each do |date|
+          - week.each do |calendar_date|
             %td
-              = render 'events/show', calendar_date: date
+              - cache calendar_date.events do
+                %strong.left
+                  = calendar_date.date.day
+
+                - calendar_date.events.each do |event|
+                  .row
+                    .col-md-6
+                      = "#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}"
+                    .col-md-6
+                      = event.title
 
 
